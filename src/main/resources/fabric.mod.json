@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "magic_mirror",
-  "version": "1.0",
+  "version": "1.0.2",
   "name": "Magic Mirror",
   "authors": [
     "tired"
@@ -20,6 +20,6 @@
   "depends": {
     "fabricloader": ">=0.9.1+build.205",
     "fabric": "*",
-    "minecraft": "1.16.1"
+    "minecraft": "1.16.3"
   }
 }
