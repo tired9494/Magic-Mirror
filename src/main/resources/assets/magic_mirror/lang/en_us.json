@@ -1,0 +1,18 @@
+{
+  "item.magic_mirror.magic_mirror": "Magic Mirror",
+  "item.magic_mirror.magic_mirror_treasure": "Magic Mirror",
+  "magic_mirror.fail": "§oYou gaze into the cloudy mirror... It can't find a valid spawnpoint in this dimension.",
+  "magic_mirror.tooltip": "§8Even just a glance makes you feel weak...",
+  "text.autoconfig.Magic Mirror.title": "Magic Mirror Options",
+  "text.autoconfig.Magic Mirror.option.recipe": "Recipe",
+  "text.autoconfig.Magic Mirror.option.chestLoot": "Chest Loot",
+  "text.autoconfig.Magic Mirror.option.interdimensional": "Interdimensional",
+  "text.autoconfig.Magic Mirror.option.xpCost": "XP Cost",
+  "text.autoconfig.Magic Mirror.option.damage": "Damage",
+  "text.autoconfig.Magic Mirror.option.weaknessLength": "Weakness Duration",
+  "text.autoconfig.Magic Mirror.option.fatigueLength": "Mining Fatigue Duration",
+  "text.autoconfig.Magic Mirror.option.blindnessLength": "Blindness Duration",
+  "text.autoconfig.Magic Mirror.option.hungerLength": "Hunger Duration",
+  "text.autoconfig.Magic Mirror.option.nauseaLength": "Nausea Duration"
+
+}
