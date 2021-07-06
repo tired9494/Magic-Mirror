@@ -2,6 +2,7 @@
   "item.magic_mirror.magic_mirror": "Magic Mirror",
   "item.magic_mirror.magic_mirror_treasure": "Magic Mirror",
   "magic_mirror.fail": "§oYou gaze into the cloudy mirror... It can't find a valid spawnpoint in this dimension.",
+  "magic_mirror.xpfail": "§oYou gaze into the cloudy mirror... You don't have enough experience.",
   "magic_mirror.tooltip": "§8Even just a glance makes you feel weak...",
   "text.autoconfig.Magic Mirror.title": "Magic Mirror Options",
   "text.autoconfig.Magic Mirror.option.recipe": "Recipe",

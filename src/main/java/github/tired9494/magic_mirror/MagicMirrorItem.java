@@ -56,48 +56,53 @@ public class MagicMirrorItem extends Item {
         if (!world.isClient()) {
             ServerPlayerEntity serverPlayer = (ServerPlayerEntity)player;
             ServerWorld serverWorld = serverPlayer.server.getWorld(serverPlayer.getSpawnPointDimension());
-            if ((player.experienceLevel >= getConfig().xpCost || player.getAbilities().creativeMode) && serverWorld != null && (getConfig().interdimensional || serverWorld == serverPlayer.getServerWorld())) {
-                int weaknessLevel = getConfig().effectOptions.weaknessLevel - 1;
-                int fatigueLevel = getConfig().effectOptions.fatigueLevel - 1;
-                int blindnessLevel = getConfig().effectOptions.blindnessLevel - 1;
-                int hungerLevel = getConfig().effectOptions.hungerLevel - 1;
-                int nauseaLevel = getConfig().effectOptions.nauseaLevel - 1;
+            if (player.experienceLevel >= getConfig().xpCost || player.getAbilities().creativeMode) {
+                if (serverWorld != null && (getConfig().interdimensional || serverWorld == serverPlayer.getServerWorld())) {
+                    int weaknessLevel = getConfig().effectOptions.weaknessLevel - 1;
+                    int fatigueLevel = getConfig().effectOptions.fatigueLevel - 1;
+                    int blindnessLevel = getConfig().effectOptions.blindnessLevel - 1;
+                    int hungerLevel = getConfig().effectOptions.hungerLevel - 1;
+                    int nauseaLevel = getConfig().effectOptions.nauseaLevel - 1;
 
-                int weaknessLength = getConfig().effectOptions.weaknessLength;
-                int fatigueLength = getConfig().effectOptions.fatigueLength;
-                int blindnessLength = getConfig().effectOptions.blindnessLength;
-                int hungerLength = getConfig().effectOptions.hungerLength;
-                int nauseaLength = getConfig().effectOptions.nauseaLength;
+                    int weaknessLength = getConfig().effectOptions.weaknessLength;
+                    int fatigueLength = getConfig().effectOptions.fatigueLength;
+                    int blindnessLength = getConfig().effectOptions.blindnessLength;
+                    int hungerLength = getConfig().effectOptions.hungerLength;
+                    int nauseaLength = getConfig().effectOptions.nauseaLength;
 
-                BlockPos spawnpoint = serverPlayer.getSpawnPointPosition();
-                Optional<Vec3d> optionalSpawnVec = player.findRespawnPosition(serverWorld, spawnpoint, serverPlayer.getSpawnAngle(), false, false);
-                BlockPos finalSpawnpoint = spawnpoint;
+                    BlockPos spawnpoint = serverPlayer.getSpawnPointPosition();
+                    Optional<Vec3d> optionalSpawnVec = player.findRespawnPosition(serverWorld, spawnpoint, serverPlayer.getSpawnAngle(), false, false);
+                    BlockPos finalSpawnpoint = spawnpoint;
 
-                //Player spawn
-                optionalSpawnVec.ifPresent(spawnVec -> {
-                    mirrorEffects(player, serverPlayer, weaknessLevel, fatigueLevel, blindnessLevel, hungerLevel, nauseaLevel, weaknessLength, fatigueLength, blindnessLength, hungerLength, nauseaLength);
-                    serverPlayer.teleport(serverWorld, spawnVec.getX(), spawnVec.getY(), spawnVec.getZ(), serverPlayer.getSpawnAngle(), 0.5F);
-                    serverWorld.playSound(null, finalSpawnpoint, SoundEvents.BLOCK_PORTAL_TRAVEL, SoundCategory.PLAYERS, 0.4f, 1f);
-                });
-
-                // World Spawn
-                if (!optionalSpawnVec.isPresent()) {
-                    if (!getConfig().spawnSet) {
-                        spawnpoint = serverWorld.getSpawnPos();
-                        serverPlayer.teleport(serverWorld, spawnpoint.getX(), spawnpoint.getY(), spawnpoint.getZ(), serverPlayer.getSpawnAngle(), 0.5F);
-                        while (!serverWorld.isSpaceEmpty(serverPlayer)) {
-                            serverPlayer.teleport(serverPlayer.getX(), serverPlayer.getY() + 1.0D, serverPlayer.getZ());
-                        }
+                    //Player spawn
+                    optionalSpawnVec.ifPresent(spawnVec -> {
                         mirrorEffects(player, serverPlayer, weaknessLevel, fatigueLevel, blindnessLevel, hungerLevel, nauseaLevel, weaknessLength, fatigueLength, blindnessLength, hungerLength, nauseaLength);
-                        serverWorld.playSound(null, spawnpoint, SoundEvents.BLOCK_PORTAL_TRAVEL, SoundCategory.PLAYERS, 0.4f, 1f);
-                    } else {
-                        player.sendSystemMessage(new TranslatableText("magic_mirror.fail"), Util.NIL_UUID);
-                        world.playSound(null, player.getBlockPos(), SoundEvents.ENTITY_SHULKER_BULLET_HURT, SoundCategory.BLOCKS, 1f, 1f);
+                        serverPlayer.teleport(serverWorld, spawnVec.getX(), spawnVec.getY(), spawnVec.getZ(), serverPlayer.getSpawnAngle(), 0.5F);
+                        serverWorld.playSound(null, finalSpawnpoint, SoundEvents.BLOCK_PORTAL_TRAVEL, SoundCategory.PLAYERS, 0.4f, 1f);
+                    });
+
+                    // World Spawn
+                    if (!optionalSpawnVec.isPresent()) {
+                        if (!getConfig().spawnSet) {
+                            spawnpoint = serverWorld.getSpawnPos();
+                            serverPlayer.teleport(serverWorld, spawnpoint.getX(), spawnpoint.getY(), spawnpoint.getZ(), serverPlayer.getSpawnAngle(), 0.5F);
+                            while (!serverWorld.isSpaceEmpty(serverPlayer)) {
+                                serverPlayer.teleport(serverPlayer.getX(), serverPlayer.getY() + 1.0D, serverPlayer.getZ());
+                            }
+                            mirrorEffects(player, serverPlayer, weaknessLevel, fatigueLevel, blindnessLevel, hungerLevel, nauseaLevel, weaknessLength, fatigueLength, blindnessLength, hungerLength, nauseaLength);
+                            serverWorld.playSound(null, spawnpoint, SoundEvents.BLOCK_PORTAL_TRAVEL, SoundCategory.PLAYERS, 0.4f, 1f);
+                        } else {
+                            player.sendSystemMessage(new TranslatableText("magic_mirror.fail"), Util.NIL_UUID);
+                            world.playSound(null, player.getBlockPos(), SoundEvents.ENTITY_SHULKER_BULLET_HURT, SoundCategory.BLOCKS, 1f, 1f);
+                        }
                     }
+                } else {
+                    player.sendSystemMessage(new TranslatableText("magic_mirror.fail"), Util.NIL_UUID);
+                    world.playSound(null, player.getBlockPos(), SoundEvents.ENTITY_SHULKER_BULLET_HURT, SoundCategory.BLOCKS, 1f, 1f);
                 }
             }
             else {
-                player.sendSystemMessage(new TranslatableText("magic_mirror.fail"), Util.NIL_UUID);
+                player.sendSystemMessage(new TranslatableText("magic_mirror.xpfail"), Util.NIL_UUID);
                 world.playSound(null, player.getBlockPos(), SoundEvents.ENTITY_SHULKER_BULLET_HURT, SoundCategory.BLOCKS, 1f, 1f);
             }
         }
@@ -109,8 +114,10 @@ public class MagicMirrorItem extends Item {
     }
 
     private void mirrorEffects(PlayerEntity player, ServerPlayerEntity serverPlayer, int weaknessLevel, int fatigueLevel, int blindnessLevel, int hungerLevel, int nauseaLevel, int weaknessLength, int fatigueLength, int blindnessLength, int hungerLength, int nauseaLength) {
-        serverPlayer.setExperienceLevel(player.experienceLevel - getConfig().xpCost);
-        serverPlayer.damage(DamageSource.magic(player, player), getConfig().damage);
+        if (!player.getAbilities().creativeMode) {
+            serverPlayer.setExperienceLevel(player.experienceLevel - getConfig().xpCost);
+            serverPlayer.damage(DamageSource.magic(player, player), getConfig().damage);
+        }
         if (weaknessLevel > -1 && weaknessLength > 0) {
             player.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, getConfig().effectOptions.weaknessLength, weaknessLevel));
         }

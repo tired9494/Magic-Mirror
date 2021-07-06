@@ -37,7 +37,7 @@ public class MagicMirrorConfig implements ConfigData
     public float damage = 5.0F;
 
     @Comment("Time it takes to use mirror in ticks. Requires restart")
-    public int useTime = 32;
+    public int useTime = 28;
 
     @Comment("A spawn must be set for the mirror to work")
     public boolean spawnSet = true;
