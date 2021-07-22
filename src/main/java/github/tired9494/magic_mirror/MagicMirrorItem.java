@@ -1,6 +1,5 @@
 package github.tired9494.magic_mirror;
 
-import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
@@ -15,7 +14,6 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
-import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.*;
@@ -24,7 +22,6 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 import static github.tired9494.magic_mirror.MagicMirror.getConfig;
@@ -71,18 +68,20 @@ public class MagicMirrorItem extends Item {
                     int nauseaLength = getConfig().effectOptions.nauseaLength;
 
                     BlockPos spawnpoint = serverPlayer.getSpawnPointPosition();
-                    Optional<Vec3d> optionalSpawnVec = player.findRespawnPosition(serverWorld, spawnpoint, serverPlayer.getSpawnAngle(), false, false);
-                    BlockPos finalSpawnpoint = spawnpoint;
+                    if (spawnpoint != null) {
+                        Optional<Vec3d> optionalSpawnVec = PlayerEntity.findRespawnPosition(serverWorld, spawnpoint, serverPlayer.getSpawnAngle(), false, false);
 
-                    //Player spawn
-                    optionalSpawnVec.ifPresent(spawnVec -> {
-                        mirrorEffects(player, serverPlayer, weaknessLevel, fatigueLevel, blindnessLevel, hungerLevel, nauseaLevel, weaknessLength, fatigueLength, blindnessLength, hungerLength, nauseaLength);
-                        serverPlayer.teleport(serverWorld, spawnVec.getX(), spawnVec.getY(), spawnVec.getZ(), serverPlayer.getSpawnAngle(), 0.5F);
-                        serverWorld.playSound(null, finalSpawnpoint, SoundEvents.BLOCK_PORTAL_TRAVEL, SoundCategory.PLAYERS, 0.4f, 1f);
-                    });
+                        //Player spawn
+                        BlockPos finalSpawnpoint = spawnpoint;
+                        optionalSpawnVec.ifPresent(spawnVec -> {
+                            mirrorEffects(player, serverPlayer, weaknessLevel, fatigueLevel, blindnessLevel, hungerLevel, nauseaLevel, weaknessLength, fatigueLength, blindnessLength, hungerLength, nauseaLength);
+                            serverPlayer.teleport(serverWorld, spawnVec.getX(), spawnVec.getY(), spawnVec.getZ(), serverPlayer.getSpawnAngle(), 0.5F);
+                            serverWorld.playSound(null, finalSpawnpoint, SoundEvents.BLOCK_PORTAL_TRAVEL, SoundCategory.PLAYERS, 0.4f, 1f);
+                        });
+                    }
 
                     // World Spawn
-                    if (!optionalSpawnVec.isPresent()) {
+                    else {
                         if (!getConfig().spawnSet) {
                             spawnpoint = serverWorld.getSpawnPos();
                             serverPlayer.teleport(serverWorld, spawnpoint.getX(), spawnpoint.getY(), spawnpoint.getZ(), serverPlayer.getSpawnAngle(), 0.5F);
