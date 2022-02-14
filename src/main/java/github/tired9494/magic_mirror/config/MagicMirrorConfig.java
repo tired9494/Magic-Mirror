@@ -42,6 +42,9 @@ public class MagicMirrorConfig implements ConfigData
     @Comment("A spawn must be set for the mirror to work")
     public boolean spawnSet = true;
 
+    @Comment("The minimum time in ticks between uses")
+    public int cooldown = 160;
+
     @Comment("")
     @ConfigEntry.Gui.CollapsibleObject
     public effectOptions effectOptions = new effectOptions();

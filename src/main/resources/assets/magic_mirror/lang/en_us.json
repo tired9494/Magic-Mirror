@@ -12,6 +12,7 @@
   "text.autoconfig.Magic Mirror.option.damage": "Damage",
   "text.autoconfig.Magic Mirror.option.useTime": "Use Time",
   "text.autoconfig.Magic Mirror.option.spawnSet": "Spawn Must be Set",
+  "text.autoconfig.Magic Mirror.option.cooldown": "Cooldown",
   "text.autoconfig.Magic Mirror.option.effectOptions": "Mirror Effect Options",
   "text.autoconfig.Magic Mirror.option.effectOptions.weaknessLength": "Weakness Duration",
   "text.autoconfig.Magic Mirror.option.effectOptions.fatigueLength": "Mining Fatigue Duration",

@@ -54,7 +54,7 @@ public class MagicMirrorItem extends Item {
             ServerPlayerEntity serverPlayer = (ServerPlayerEntity)player;
             ServerWorld serverWorld = serverPlayer.server.getWorld(serverPlayer.getSpawnPointDimension());
             if (player.experienceLevel >= getConfig().xpCost || player.getAbilities().creativeMode) {
-                if (serverWorld != null && (getConfig().interdimensional || serverWorld == serverPlayer.getServerWorld())) {
+                if (serverWorld != null && (getConfig().interdimensional || serverWorld == serverPlayer.getWorld().toServerWorld())) {
                     int weaknessLevel = getConfig().effectOptions.weaknessLevel - 1;
                     int fatigueLevel = getConfig().effectOptions.fatigueLevel - 1;
                     int blindnessLevel = getConfig().effectOptions.blindnessLevel - 1;
@@ -106,7 +106,7 @@ public class MagicMirrorItem extends Item {
             }
         }
         if (player != null) {
-            player.getItemCooldownManager().set(this, 160);
+            player.getItemCooldownManager().set(this, getConfig().cooldown);
             player.incrementStat(Stats.USED.getOrCreateStat(this));
         }
         return stack;
